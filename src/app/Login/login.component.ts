@@ -3,7 +3,7 @@ import { SocialAuthService } from "angularx-social-login";
 import { GoogleLoginProvider } from "angularx-social-login";
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import Users from './../users';
+import Users from '../common/users';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,7 +12,6 @@ import Users from './../users';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  showLogin = false;
 
   constructor(
     private authService: SocialAuthService,
