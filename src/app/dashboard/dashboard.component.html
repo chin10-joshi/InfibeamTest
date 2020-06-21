@@ -1,0 +1,48 @@
+<div class="dashboard">
+  <app-header></app-header>
+
+  <div class="subject-selection-form" *ngIf="!this.testStarted">
+    <h3>Please select any language that you prefer to take your skill test.</h3>
+
+    <form [formGroup]="subjectForm">
+      <input type="radio" formControlName="subject" name="subject" value="HTML" /> HTML
+      <input type="radio" formControlName="subject" name="subject" value="CSS" /> CSS
+      <input type="radio" formControlName="subject" name="subject" value="Javascript" /> Javascript
+    </form>
+
+    <button class="btn-start" (click)="this.startTest()">Start Test</button>
+  </div>
+
+
+  <div class="test-form" *ngIf="this.testStarted">
+
+    <div class="test-title">
+      <h3>Test for {{this.selectedSubject}} has begun.</h3>
+      <button class="btn-cancel" (click)="this.cancelTest()">Cancel Test</button>
+    </div>
+
+    <hr>
+
+    <button [disabled]="this.currentQuestion.index === 0" class="btn-prev"
+      (click)="this.prevQuestion()">Previous</button>
+    <button [disabled]="this.currentQuestion.index === this.questionList.length -1" class="btn-next"
+      (click)="this.nextQuestion()">Next</button>
+
+    <h2 class="question">{{this.currentQuestion.index + 1}}) {{this.currentQuestion.question}}</h2>
+    <form>
+      <span class="options" *ngFor="let option of this.currentQuestion.options">
+        <span>
+          <input type="radio" name="option" [value]="option" [id]="option" (change)="this.onAnswerSelected($event)"
+            [checked]="this.currentQuestion.selectedAnswer === option" />
+          <label [for]="option">{{option}}</label>
+        </span>
+      </span>
+    </form>
+  </div>
+
+  <button class="btn-show-result"
+    *ngIf="this.testStarted && !this.resultDeclared && (this.currentQuestion && this.currentQuestion.index === this.questionList.length -1)"
+    (click)="this.showResult()">Show Result</button>
+
+  <app-result *ngIf="this.resultDeclared" [correctAnswers]="this.correctAnswers"></app-result>
+</div>
